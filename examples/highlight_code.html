@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Code Snippet Examples</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="../build/d3-json-controller.js" ></script>
+    <link rel="stylesheet" href="../build/d3-json-controller.css"/>
+    <style>
+    body {
+      position: relative;
+      margin: 100px auto;
+      max-width: 600px;
+    }
+    #caption {
+      font-family: Roboto;
+      font-size: 13px;
+      position: absolute;
+      top: 0px;
+
+      float: left;
+      width: 300px;
+      border-left: 3px solid #ff5e00;
+      padding: 0 10px;
+      color: #444;
+      margin-left: 620px;
+    }
+    .code_snippet pre {
+      position:relative;
+      padding: 1.5em;
+      background-color: #f3f3f5;
+      border-radius: 4px;
+    }
+
+    .code_snippet span {
+      background: none;
+      display: inline;
+    }
+
+    .code_snippet span em {
+      font-style: normal;
+    }
+
+    .d3-json-controller-selected em {
+      background-color: rgba(255, 129, 0, 0.25);
+      cursor: default;
+    }
+
+    .katex .mord.d3-json-controller-selected {
+      color: #ff5e00;
+      cursor: default;
+    }
+
+    .d3-json-controller-hint {
+      font-family: Roboto;
+      padding: 1px 0 4px 18px;
+      color: #ff5e00;
+      font-size: 0.8em;
+      background-image: url(info.svg);
+      background-repeat: no-repeat;
+      background-size: 14px;
+      background-position-y: 1px;
+      opacity: 0.8;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+    </style>
+  </head>
+  <body>
+
+  <div id="eqn1"></div><br/>
+
+  <code id="code1" class="code_snippet"><pre>w2 = <span><em>tf.minimum(s_t,</em>
+          <span><em>tf.nn.relu(1 - </em><span><em>tf.reduce_sum(</em>
+              <em>tf.multiply(s_t, mask),</em>
+              <em>axis=1)</em></span><em>)</em></span><em>)</em></span>
+<em>r_t = </em><span><em>tf.reduce_sum(</em><span><em>tf.multiply(w2, new_values)</em></span><em>, axis=1)</em></span><div id="hint1">Hover for details</div></pre></code>
+
+  <div id="caption"></div>
+
+  <script>
+
+    var eqn1 = 'r_{t}={{\\sum_{i=1}^{t}({{min(s_{t}[{i}],{{max(0,1-{{\\sum_{j=i+1}^{t}s_{t}[{j}]}})}})}}) \\cdot V_{t}[{i}]}}'
+
+    katex.render(eqn1, document.getElementById('eqn1'), {
+      displayMode: true,
+      throwOnError: false
+    })
+
+    var data = {
+      "0": {
+        "0": {
+          "0": {
+            "0": {
+              "0": {
+                "description": "????"
+              },
+              "description": "Multiply the current state by the offset mask."
+            },
+            "description": "Invert the strengths and eliminate strengths less than zero."
+          },
+          "description": "Take the minimum"
+        },
+        "description": "Update read strengths by ...<br><strong>shape:</strong> <tt>[1, 1, memory_size, 1]</tt>"
+      }
+    }
+
+
+    var controller = d3.JSONController(data);
+    controller.goto(0, 0);
+
+    var caption = controller.caption('#caption')
+    controller.registerListener(caption.update.bind(caption), '$..description')
+
+    var hint1 = controller.hint('#hint1')
+
+    var highlight1_root = '#code1 pre'
+    var highlight1_child = 'span'
+    var highlight1 = controller.highlight(
+      highlight1_root,
+      highlight1_child, {
+        '0': [1],
+        '0,0': [0],
+        '0,0,0': [0,0],
+        '0,0,0,0': [0,0,0],
+        '0,0,0,0,0': [1,0],
+      })
+    controller.registerHoverHierarchy(
+      highlight1_root,
+      highlight1_child,
+      highlight1.reverseMapping())
+    controller.registerListener(highlight1.update.bind(highlight1), '$..*')
+
+    var highlight2_root = '#eqn1'
+    var highlight2_child = '[class=\"mord\"]:only-child'
+    var highlight2 = controller.highlight(
+      highlight2_root,
+      highlight2_child)
+    controller.registerHoverHierarchy(
+      highlight2_root,
+      highlight2_child)
+    controller.registerListener(highlight2.update.bind(highlight2), '$..*')
+
+  </script>
+
+  </body>
+</html>

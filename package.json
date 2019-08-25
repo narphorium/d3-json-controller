@@ -1,0 +1,42 @@
+{
+  "name": "d3-json-controller",
+  "version": "0.0.1",
+  "description": "A plugin to bind hierarchical JSON data to D3 visualizations.",
+  "keywords": [
+    "d3",
+    "d3-module"
+  ],
+  "license": "Apache-2.0",
+  "main": "build/d3-json-controller.js",
+  "jsnext:main": "index",
+  "homepage": "https://github.com/narphorium/d3-json-controller",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/narphorium/d3-json-controller"
+  },
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && rollup -c",
+    "test": "tape 'test/**/*-test.js'",
+    "prepare": "npm run test && uglifyjs build/d3-json-controller.js -c -m -o build/d3-json-controller.min.js && uglifycss src/json-controller.css --output build/d3-json-controller.css",
+    "postpublish": "zip -j build/d3-json-controller.zip -- LICENSE README.md build/d3-json-controller.js build/d3-json-controller.min.js build/d3-json-controller.css"
+  },
+  "dependencies": {
+    "jsonpath-plus": "0.20.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "rollup": "^1.15.1",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-eslint": "^6.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1",
+    "tape": "4",
+    "uglify-es": "3",
+    "uglifycss": "0.0.29"
+  }
+}
