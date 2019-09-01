@@ -42,7 +42,7 @@ export class JSONControllerControls {
       .attr('value', 0)
       .on('change', (function (c) {
         return function () {
-          c._controller.goto(c._level, c._jump_input.node().value - 1)
+          c._controller.goto(c._level, c._jump_input.node().value)
         }
       }(this)))
 
@@ -68,8 +68,7 @@ export class JSONControllerControls {
     } else {
       this.prevButton.attr('disabled', null)
     }
-    var currentIndex = this._controller.currentStep(this._level)
-    if (typeof currentIndex === 'number') currentIndex += 1
+    var currentIndex = this._controller.currentIndex(this._level)
     this._jump_input.node().value = currentIndex
     if (this._controller.isEnd(this._level)) {
       this.next_button.attr('disabled', '')

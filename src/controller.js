@@ -194,11 +194,11 @@ class JSONController {
     return this._current_path
   }
 
-  currentStep (level) {
+  currentIndex (level) {
     return this._current_path[level]
   }
 
-  maxStep (level) {
+  maxIndex (level) {
     return this._current_length[level] - 1
   }
 
@@ -207,7 +207,7 @@ class JSONController {
   }
 
   isEnd (level) {
-    return this._current_path[level] === this.maxStep(level)
+    return this._current_path[level] === this.maxIndex(level)
   }
 
   start (level) {
@@ -223,7 +223,7 @@ class JSONController {
   }
 
   end (level) {
-    this.goto(level, this.maxStep(level))
+    this.goto(level, this.maxIndex(level))
   }
 
   registerHover (element, path) {
