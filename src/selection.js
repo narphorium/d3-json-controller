@@ -5,26 +5,24 @@ class HierarchicalSelection {
     this._elements_by_path = {}
 
     var nodes = []
-    element.selectAll(selector).each(function () { nodes.push(this) })
+    element.selectAll(selector).each(function () {
+      nodes.push({ 'node': this, 'children': [] })
+    })
 
     var nodeHierarchy = []
-    var hierarchyByNode = {}
-    nodes.forEach(function (h) {
+    nodes.forEach(function (h, nodes) {
       return function (node, i) {
-        var parent = findParent(node, nodes)
-        var n = { 'node': node, 'children': [] }
+        var parent = findParent(node['node'], nodes)
         if (parent) {
-          var p = hierarchyByNode[parent]
-          n['path'] = p['path'].concat([p['children'].length])
-          p['children'].push(n)
+          node['path'] = parent['path'].concat([parent['children'].length])
+          parent['children'].push(node)
         } else {
-          n['path'] = [nodeHierarchy.length]
-          nodeHierarchy.push(n)
+          node['path'] = [nodeHierarchy.length]
+          nodeHierarchy.push(node)
         }
-        hierarchyByNode[node] = n
-        h._elements_by_path[n['path']] = select(node)
+        h._elements_by_path[node['path']] = select(node['node'])
       }
-    }(this))
+    }(this, nodes))
   }
 
   forEach (callback) {
@@ -43,11 +41,12 @@ function findParent (child, nodes) {
   if (child.parentNode == null) {
     return null
   }
-  if (nodes.includes(child.parentNode)) {
-    return child.parentNode
-  } else {
-    return findParent(child.parentNode, nodes)
+  for (let n of nodes) {
+    if (n['node'] === child.parentNode) {
+      return n
+    }
   }
+  return findParent(child.parentNode, nodes)
 }
 
 export function selectHierarchy (rootSelector, childSelector) {

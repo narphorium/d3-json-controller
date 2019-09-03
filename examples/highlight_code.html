@@ -114,12 +114,12 @@
     var controller = d3.JSONController(data);
     controller.goto(0, 0);
 
-    var caption = controller.caption('#caption')
+    var caption = controller.caption(d3.select('#caption'))
     controller.registerListener(caption.update.bind(caption), '$..description')
 
-    var hint1 = controller.hint('#hint1')
+    var hint1 = controller.hint(d3.select('#hint1'))
 
-    var highlight1_root = '#code1 pre'
+    var highlight1_root = d3.select('#code1 pre')
     var highlight1_child = 'span'
     var highlight1 = controller.highlight(
       highlight1_root,
@@ -136,7 +136,7 @@
       highlight1.reverseMapping())
     controller.registerListener(highlight1.update.bind(highlight1), '$..*')
 
-    var highlight2_root = '#eqn1'
+    var highlight2_root = d3.select('#eqn1')
     var highlight2_child = '[class=\"mord\"]:only-child'
     var highlight2 = controller.highlight(
       highlight2_root,
