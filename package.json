@@ -21,7 +21,7 @@
     "postpublish": "zip -j build/d3-json-controller.zip -- LICENSE README.md build/d3-json-controller.js build/d3-json-controller.min.js build/d3-json-controller.css"
   },
   "dependencies": {
-    "jsonpath-plus": "0.20.1"
+    "jsonpath-plus": "10.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
